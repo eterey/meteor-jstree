@@ -16,7 +16,7 @@ Package.onUse(function(api) {
     'uzumaxy:jstree/css/style.css'
   ], 'client');
 
-  api.addFile([
+  api.addFiles([
     'uzumaxy:jstree/img/32px.png',
     'uzumaxy:jstree/img/40px.png',
     'uzumaxy:jstree/img/throbber.gif'
