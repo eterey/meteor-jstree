@@ -8,7 +8,7 @@ Package.describe({
 Package.onUse(function(api) {
 
   api.use([
-    'jquery'
+    'jquery@1.11.3'
   ], 'client');
 
   api.addFiles([
