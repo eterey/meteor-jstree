@@ -1,7 +1,7 @@
 Package.describe({
   name: "uzumaxy:jstree",
   summary: "jQuery tree plugin for MeteorJS.",
-  version: "3.0.9-1",
+  version: "3.0.9-2",
   git: "https://github.com/uzumaxy/meteor-jstree"
 });
 
@@ -12,14 +12,14 @@ Package.onUse(function(api) {
   ], 'client');
 
   api.addFiles([
-    'uzumaxy:jstree/js/jstree.js',
-    'uzumaxy:jstree/css/style.css'
+    'uzumaxy:jstree/jstree.js',
+    'uzumaxy:jstree/style.css'
   ], 'client');
 
   api.addFiles([
-    'uzumaxy:jstree/img/32px.png',
-    'uzumaxy:jstree/img/40px.png',
-    'uzumaxy:jstree/img/throbber.gif'
+    'uzumaxy:jstree/32px.png',
+    'uzumaxy:jstree/40px.png',
+    'uzumaxy:jstree/throbber.gif'
   ], 'client', {isAsset: true});
 
 });
