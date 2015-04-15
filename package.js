@@ -1,7 +1,7 @@
 Package.describe({
   name: "uzumaxy:jstree",
   summary: "jQuery tree plugin for MeteorJS.",
-  version: "3.0.9-3",
+  version: "3.0.9_1",
   git: "https://github.com/uzumaxy/meteor-jstree"
 });
 
