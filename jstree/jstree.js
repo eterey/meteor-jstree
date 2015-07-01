@@ -1220,63 +1220,65 @@
      * @trigger load_node.jstree
      */
     load_node: function (obj, callback) {
-      var k, l, i, j, c;
-      if ($.isArray(obj)) {
-        this._load_nodes(obj.slice(), callback);
+      Tracker.autorun($.proxy(function () {
+        var k, l, i, j, c;
+        if ($.isArray(obj)) {
+          this._load_nodes(obj.slice(), callback);
+          return true;
+        }
+        obj = this.get_node(obj);
+        if (!obj) {
+          if (callback) {
+            callback.call(this, obj, false);
+          }
+          return false;
+        }
+        // if(obj.state.loading) { } // the node is already loading - just wait for it to load and invoke callback? but if called implicitly it should be loaded again?
+        if (obj.state.loaded) {
+          obj.state.loaded = false;
+          for (k = 0, l = obj.children_d.length; k < l; k++) {
+            for (i = 0, j = obj.parents.length; i < j; i++) {
+              this._model.data[obj.parents[i]].children_d = $.vakata.array_remove_item(this._model.data[obj.parents[i]].children_d, obj.children_d[k]);
+            }
+            if (this._model.data[obj.children_d[k]].state.selected) {
+              c = true;
+              this._data.core.selected = $.vakata.array_remove_item(this._data.core.selected, obj.children_d[k]);
+            }
+            delete this._model.data[obj.children_d[k]];
+          }
+          obj.children = [];
+          obj.children_d = [];
+          if (c) {
+            this.trigger('changed', {'action': 'load_node', 'node': obj, 'selected': this._data.core.selected});
+          }
+        }
+        obj.state.failed = false;
+        obj.state.loading = true;
+        this.get_node(obj, true).addClass("jstree-loading").attr('aria-busy', true);
+        this._load_node(obj, $.proxy(function (status) {
+          obj = this._model.data[obj.id];
+          obj.state.loading = false;
+          obj.state.loaded = status;
+          obj.state.failed = !obj.state.loaded;
+          var dom = this.get_node(obj, true);
+          if (obj.state.loaded && !obj.children.length && dom && dom.length && !dom.hasClass('jstree-leaf')) {
+            dom.removeClass('jstree-closed jstree-open').addClass('jstree-leaf');
+          }
+          dom.removeClass("jstree-loading").attr('aria-busy', false);
+          /**
+           * triggered after a node is loaded
+           * @event
+           * @name load_node.jstree
+           * @param {Object} node the node that was loading
+           * @param {Boolean} status was the node loaded successfully
+           */
+          this.trigger('load_node', {"node": obj, "status": status});
+          if (callback) {
+            callback.call(this, obj, status);
+          }
+        }, this));
         return true;
-      }
-      obj = this.get_node(obj);
-      if (!obj) {
-        if (callback) {
-          callback.call(this, obj, false);
-        }
-        return false;
-      }
-      // if(obj.state.loading) { } // the node is already loading - just wait for it to load and invoke callback? but if called implicitly it should be loaded again?
-      if (obj.state.loaded) {
-        obj.state.loaded = false;
-        for (k = 0, l = obj.children_d.length; k < l; k++) {
-          for (i = 0, j = obj.parents.length; i < j; i++) {
-            this._model.data[obj.parents[i]].children_d = $.vakata.array_remove_item(this._model.data[obj.parents[i]].children_d, obj.children_d[k]);
-          }
-          if (this._model.data[obj.children_d[k]].state.selected) {
-            c = true;
-            this._data.core.selected = $.vakata.array_remove_item(this._data.core.selected, obj.children_d[k]);
-          }
-          delete this._model.data[obj.children_d[k]];
-        }
-        obj.children = [];
-        obj.children_d = [];
-        if (c) {
-          this.trigger('changed', {'action': 'load_node', 'node': obj, 'selected': this._data.core.selected});
-        }
-      }
-      obj.state.failed = false;
-      obj.state.loading = true;
-      this.get_node(obj, true).addClass("jstree-loading").attr('aria-busy', true);
-      this._load_node(obj, $.proxy(function (status) {
-        obj = this._model.data[obj.id];
-        obj.state.loading = false;
-        obj.state.loaded = status;
-        obj.state.failed = !obj.state.loaded;
-        var dom = this.get_node(obj, true);
-        if (obj.state.loaded && !obj.children.length && dom && dom.length && !dom.hasClass('jstree-leaf')) {
-          dom.removeClass('jstree-closed jstree-open').addClass('jstree-leaf');
-        }
-        dom.removeClass("jstree-loading").attr('aria-busy', false);
-        /**
-         * triggered after a node is loaded
-         * @event
-         * @name load_node.jstree
-         * @param {Object} node the node that was loading
-         * @param {Boolean} status was the node loaded successfully
-         */
-        this.trigger('load_node', {"node": obj, "status": status});
-        if (callback) {
-          callback.call(this, obj, status);
-        }
       }, this));
-      return true;
     },
     /**
      * load an array of nodes (will also load unavailable nodes as soon as the appear in the structure). Used internally.
