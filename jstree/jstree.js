@@ -165,12 +165,14 @@
     if (!obj || !obj.length) {
       try {
         obj = $(needle);
-      } catch (ignore) { }
+      } catch (ignore) {
+      }
     }
     if (!obj || !obj.length) {
       try {
         obj = $('#' + needle.replace($.jstree.idregex, '\\$&'));
-      } catch (ignore) { }
+      } catch (ignore) {
+      }
     }
     if (obj && obj.length && (obj = obj.closest('.jstree')).length && (obj = obj.data('jstree'))) {
       tmp = obj;
@@ -249,8 +251,8 @@
    * __Examples__
    *
    *  $('div:jstree').each(function () {
-	 *		$(this).jstree('destroy');
-	 *	});
+   *    $(this).jstree('destroy');
+   *  });
    *
    * @name $(':jstree')
    * @return {jQuery}
@@ -283,38 +285,38 @@
      *
      *  // AJAX
      *  $('#tree').jstree({
-		 *		'core' : {
-		 *			'data' : {
-		 *				'url' : '/get/children/',
-		 *				'data' : function (node) {
-		 *					return { 'id' : node.id };
-		 *				}
-		 *			}
-		 *		});
-		 *
-		 *	// direct data
-		 *	$('#tree').jstree({
-		 *		'core' : {
-		 *			'data' : [
-		 *				'Simple root node',
-		 *				{
-		 *					'id' : 'node_2',
-		 *					'text' : 'Root node with options',
-		 *					'state' : { 'opened' : true, 'selected' : true },
-		 *					'children' : [ { 'text' : 'Child 1' }, 'Child 2']
-		 *				}
-		 *			]
-		 *		});
-		 *
-		 *	// function
-		 *	$('#tree').jstree({
-		 *		'core' : {
-		 *			'data' : function (obj, callback) {
-		 *				callback.call(this, ['Root 1', 'Root 2']);
-		 *			}
-		 *		});
-		 *
-		 * @name $.jstree.defaults.core.data
+     *    'core' : {
+     *      'data' : {
+     *        'url' : '/get/children/',
+     *        'data' : function (node) {
+     *          return { 'id' : node.id };
+     *        }
+     *      }
+     *    });
+     *
+     *  // direct data
+     *  $('#tree').jstree({
+     *    'core' : {
+     *      'data' : [
+     *        'Simple root node',
+     *        {
+     *          'id' : 'node_2',
+     *          'text' : 'Root node with options',
+     *          'state' : { 'opened' : true, 'selected' : true },
+     *          'children' : [ { 'text' : 'Child 1' }, 'Child 2']
+     *        }
+     *      ]
+     *    });
+     *
+     *  // function
+     *  $('#tree').jstree({
+     *    'core' : {
+     *      'data' : function (obj, callback) {
+     *        callback.call(this, ['Root 1', 'Root 2']);
+     *      }
+     *    });
+     *
+     * @name $.jstree.defaults.core.data
      */
     data: false,
     /**
@@ -327,12 +329,12 @@
      * __Examples__
      *
      *  $('#tree').jstree({
-		 *		'core' : {
-		 *			'strings' : {
-		 *				'Loading ...' : 'Please wait ...'
-		 *			}
-		 *		}
-		 *	});
+     *    'core' : {
+     *      'strings' : {
+     *        'Loading ...' : 'Please wait ...'
+     *      }
+     *    }
+     *  });
      *
      * @name $.jstree.defaults.core.strings
      */
@@ -345,14 +347,14 @@
      * __Examples__
      *
      *  $('#tree').jstree({
-		 *		'core' : {
-		 *			'check_callback' : function (operation, node, node_parent, node_position, more) {
-		 *				// operation can be 'create_node', 'rename_node', 'delete_node', 'move_node' or 'copy_node'
-		 *				// in case of 'rename_node' node_position is filled with the new node name
-		 *				return operation === 'rename_node' ? true : false;
-		 *			}
-		 *		}
-		 *	});
+     *    'core' : {
+     *      'check_callback' : function (operation, node, node_parent, node_position, more) {
+     *        // operation can be 'create_node', 'rename_node', 'delete_node', 'move_node' or 'copy_node'
+     *        // in case of 'rename_node' node_position is filled with the new node name
+     *        return operation === 'rename_node' ? true : false;
+     *      }
+     *    }
+     *  });
      *
      * @name $.jstree.defaults.core.check_callback
      */
@@ -540,7 +542,8 @@
           window.URL.revokeObjectURL(this._wrk);
           this._wrk = null;
         }
-        catch (ignore) { }
+        catch (ignore) {
+        }
       }
       if (!keep_html) {
         this.element.empty();
@@ -584,7 +587,8 @@
               try {
                 sel.removeAllRanges();
                 sel.collapse();
-              } catch (ignore) { }
+              } catch (ignore) {
+              }
             }
           }
         })
@@ -1932,7 +1936,8 @@
               try {
                 w.terminate();
                 w = null;
-              } catch (ignore) { }
+              } catch (ignore) {
+              }
               if (this._data.core.worker_queue.length) {
                 this._append_json_data.apply(this, this._data.core.worker_queue.shift());
               }
@@ -2364,7 +2369,7 @@
         this._model.force_full_redraw = true;
       }
       //if(this._model.redraw_timeout) {
-      //	clearTimeout(this._model.redraw_timeout);
+      //  clearTimeout(this._model.redraw_timeout);
       //}
       //this._model.redraw_timeout = setTimeout($.proxy(this._redraw, this),0);
       this._redraw();
@@ -5754,9 +5759,9 @@
           "_disabled": false, //(this.check("rename_node", data.reference, this.get_parent(data.reference), "")),
           "label": "Rename",
           /*
-           "shortcut"			: 113,
-           "shortcut_label"	: 'F2',
-           "icon"				: "glyphicon glyphicon-leaf",
+           "shortcut"      : 113,
+           "shortcut_label"  : 'F2',
+           "icon"        : "glyphicon glyphicon-leaf",
            */
           "action": function (data) {
             var inst = $.jstree.reference(data.reference),
@@ -6785,7 +6790,8 @@
           if (e.currentTarget.style) {
             e.currentTarget.style.MozUserSelect = "none";
           }
-        } catch (ignore) { }
+        } catch (ignore) {
+        }
         vakata_dnd.init_x = e.pageX;
         vakata_dnd.init_y = e.pageY;
         vakata_dnd.data = data;
@@ -6996,9 +7002,9 @@
    * Both the AJAX and the function approach rely on the same return value - an object where the keys are the node IDs, and the value is the children of that node as an array.
    *
    *  {
-	 *		"id1" : [{ "text" : "Child of ID1", "id" : "c1" }, { "text" : "Another child of ID1", "id" : "c2" }],
-	 *		"id2" : [{ "text" : "Child of ID2", "id" : "c3" }]
-	 *	}
+   *    "id1" : [{ "text" : "Child of ID1", "id" : "c1" }, { "text" : "Another child of ID1", "id" : "c2" }],
+   *    "id2" : [{ "text" : "Child of ID2", "id" : "c3" }]
+   *  }
    *
    * @name $.jstree.defaults.massload
    * @plugin massload
@@ -7368,7 +7374,8 @@
         }
         try {
           v = $('#' + v.replace($.jstree.idregex, '\\$&'), t.element);
-        } catch (ignore) { }
+        } catch (ignore) {
+        }
         if (v && v.length) {
           if (t.is_closed(v)) {
             t._data.search.opn.push(v[0].id);
@@ -8266,7 +8273,8 @@
     // proto.attributeChangedCallback = function (name, previous, value) { };
     try {
       document.registerElement("vakata-jstree", {prototype: proto});
-    } catch (ignore) { }
+    } catch (ignore) {
+    }
   }
 
 })();
